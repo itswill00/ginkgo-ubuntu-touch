@@ -1,0 +1,90 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  consistency:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends shellcheck python3
+
+      - name: Shell syntax
+        run: |
+          for f in scripts/*.sh flashable_zips/update-binary.template.sh; do
+            bash -n "$f" || { echo "syntax error in $f"; exit 1; }
+          done
+
+      - name: Shellcheck
+        run: |
+          shellcheck -S info scripts/*.sh \
+            flashable_zips/update-binary.template.sh
+
+      - name: deviceinfo
+        run: make deviceinfo
+
+      - name: Overlay consistency
+        run: make overlay
+
+      - name: No build products committed
+        run: |
+          if git ls-files | grep -E '\.(img|zip|tar\.xz)$|^out/|^dist/|^build-workspace/'; then
+            echo "build products must not be committed"
+            exit 1
+          fi
+
+      - name: Kernel patches apply to a clean tree
+        run: |
+          # The patches are only useful if they apply to the unmodified upstream
+          # tree, so check that rather than just checking they exist.
+          git config --global user.email "ci@example.invalid"
+          git config --global user.name "ci"
+          tmp="$(mktemp -d)"
+          git clone --depth=1 --single-branch \
+            -b "$(sed -n 's/^deviceinfo_kernel_source_branch="\(.*\)"/\1/p' deviceinfo)" \
+            "$(sed -n 's/^deviceinfo_kernel_source="\(.*\)"/\1/p' deviceinfo)" \
+            "$tmp/kernel"
+          for p in build-patches/*.patch; do
+            echo "checking $(basename "$p")"
+            git -C "$tmp/kernel" apply --check "$p"
+          done
+          rm -rf "$tmp"
+
+      - name: Installer references only files it ships
+        run: |
+          # Every image the installer writes must exist in the package layout.
+          for img in boot dtbo system; do
+            grep -q "write_image $img" flashable_zips/update-binary.template.sh \
+              || { echo "installer does not write $img"; exit 1; }
+          done
+
+      - name: Documentation links resolve
+        run: |
+          python3 - <<'PY'
+          import os, re, sys
+          bad = 0
+          for root, _, files in os.walk('.'):
+              if '.git' in root:
+                  continue
+              for f in files:
+                  if not f.endswith('.md'):
+                      continue
+                  path = os.path.join(root, f)
+                  for m in re.finditer(r'\]\(([^)#][^)]*)\)', open(path, encoding='utf-8').read()):
+                      target = m.group(1)
+                      if target.startswith(('http://', 'https://', 'mailto:')):
+                          continue
+                      resolved = os.path.normpath(os.path.join(root, target))
+                      if not os.path.exists(resolved):
+                          print(f'{path}: broken link {target}')
+                          bad += 1
+          sys.exit(1 if bad else 0)
+          PY

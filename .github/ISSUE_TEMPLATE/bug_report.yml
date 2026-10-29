@@ -1,0 +1,91 @@
+name: Bug report
+description: Something does not work on the device, or the build fails
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: read [docs/TROUBLESHOOTING.md](https://github.com/itswill00/ginkgo-ubuntu-touch/blob/main/docs/TROUBLESHOOTING.md).
+        It covers the failures that come up most often, and each one names the
+        command that confirms the cause.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: What is broken?
+      options:
+        - Boot (device does not reach the setup wizard)
+        - Display or touch
+        - Modem / calls / data
+        - WiFi
+        - Audio
+        - Camera
+        - Fingerprint
+        - Sensors
+        - The build itself
+        - The installer
+        - Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happens
+    attributes:
+      label: What happens
+      description: The symptom, and what you expected instead.
+    validations:
+      required: true
+
+  - type: input
+    id: build
+    attributes:
+      label: Installed build
+      description: Output of `cat /sdcard/ginkgo-installed.txt`, or the zip filename.
+      placeholder: ginkgo-ut20.04-halium10-v0.1.0-20261029-abc1234.zip
+    validations:
+      required: true
+
+  - type: input
+    id: kernel
+    attributes:
+      label: Kernel
+      description: Output of `uname -a`.
+      placeholder: Linux ubuntu-phablet 4.14.190 ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: variant
+    attributes:
+      label: Device variant
+      description: ginkgo and willow share a kernel but not the vendor blobs.
+      options:
+        - Redmi Note 8 (ginkgo)
+        - Redmi Note 8T (willow)
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: |
+        `journalctl -b --no-pager | tail -200` and `systemctl --failed --no-pager`
+        answer most questions before they are asked. If the problem is at flash
+        time, paste the installer's console output instead.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmations
+      options:
+        - label: I read docs/TROUBLESHOOTING.md and this is not one of the documented failures
+          required: true
+        - label: The device is ginkgo or willow, not another Redmi Note 8 variant
+          required: true
+        - label: I understand this port has not been verified on hardware by its maintainer
+          required: true
