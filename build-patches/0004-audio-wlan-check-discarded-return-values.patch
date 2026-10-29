@@ -1,0 +1,56 @@
+diff --git a/drivers/staging/qcacld-3.0/core/hdd/src/wlan_hdd_assoc.c b/drivers/staging/qcacld-3.0/core/hdd/src/wlan_hdd_assoc.c
+index 75dc120b1..ca3a61f0c 100644
+--- a/drivers/staging/qcacld-3.0/core/hdd/src/wlan_hdd_assoc.c
++++ b/drivers/staging/qcacld-3.0/core/hdd/src/wlan_hdd_assoc.c
+@@ -2014,13 +2014,10 @@ QDF_STATUS hdd_update_dp_vdev_flags(void *cbk_data,
+ 	void *soc = cds_get_context(QDF_MODULE_ID_SOC);
+ 	struct hdd_context *hdd_ctx;
+ 	void *pdev = cds_get_context(QDF_MODULE_ID_TXRX);
+-	struct wlan_objmgr_psoc **psoc;
+ 
+ 	if (!cbk_data)
+ 		return status;
+ 
+-	psoc = cbk_data;
+-
+ 	hdd_ctx = cds_get_context(QDF_MODULE_ID_HDD);
+ 	if (!hdd_ctx) {
+ 		hdd_err("Invalid HDD Context");
+diff --git a/techpack/audio/asoc/codecs/max98937/max98937.c b/techpack/audio/asoc/codecs/max98937/max98937.c
+index ced41d4d2..e5e097cb7 100644
+--- a/techpack/audio/asoc/codecs/max98937/max98937.c
++++ b/techpack/audio/asoc/codecs/max98937/max98937.c
+@@ -1591,6 +1591,9 @@ static int max98927_stream_mute(struct snd_soc_dai *codec_dai, int mute, int str
+ 			if (max98927->mono_stereo == 0x0 || (max98927->mono_stereo & 0x1)) {
+ 				if (!rdc_check_valid(max98927->ref_RDC[MAX98927L], MAX98927L) && max98927->ref_RDC[MAX98927L] != SPK_MUTE_VALUE){
+ 					rc = max989xx_calib_get(&impedance, MAX98927L);
++					if (rc < 0)
++						pr_err("%s: left calib read failed, rc=%d\n",
++							__func__, rc);
+ 					if (rdc_check_valid(impedance, MAX98927L) || impedance == SPK_MUTE_VALUE) {
+ 						max98927->ref_RDC[MAX98927L] = impedance;
+ 						pr_info("%s: ref_RDC left =%d \n", __func__,  max98927->ref_RDC[MAX98927L]);
+@@ -1601,6 +1604,9 @@ static int max98927_stream_mute(struct snd_soc_dai *codec_dai, int mute, int str
+ 				if (!rdc_check_valid(max98927->ref_RDC[MAX98927R], MAX98927R) && max98927->ref_RDC[MAX98927R] != SPK_MUTE_VALUE){
+ 					impedance = 0;
+ 					rc = max989xx_calib_get(&impedance, MAX98927R);
++					if (rc < 0)
++						pr_err("%s: right calib read failed, rc=%d\n",
++							__func__, rc);
+ 					if (rdc_check_valid(impedance, MAX98927R) || impedance == SPK_MUTE_VALUE) {
+ 						max98927->ref_RDC[MAX98927R] = impedance;
+ 						pr_info("%s: ref_RDC right=%d \n", __func__, max98927->ref_RDC[MAX98927R]);
+diff --git a/techpack/audio/dsp/codecs/q6audio_v2_aio.c b/techpack/audio/dsp/codecs/q6audio_v2_aio.c
+index 973108de9..a72533130 100644
+--- a/techpack/audio/dsp/codecs/q6audio_v2_aio.c
++++ b/techpack/audio/dsp/codecs/q6audio_v2_aio.c
+@@ -218,6 +218,9 @@ void audio_aio_async_read_ack(struct q6audio_aio *audio, uint32_t token,
+ 				filled_buf->meta_info.meta_out.num_of_frames,
+ 				event_payload.aio_buf.data_len);
+ 			ret = extract_meta_out_info(audio, filled_buf, 0);
++			if (ret < 0)
++				pr_err("%s[%pK]: failed to extract meta out info, ret=%d\n",
++					__func__, audio, ret);
+ 			audio->eos_rsp = 0;
+ 		}
+ 		pr_debug("%s, posting read done to the app here\n", __func__);

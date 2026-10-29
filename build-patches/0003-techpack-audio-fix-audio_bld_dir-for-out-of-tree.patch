@@ -1,0 +1,312 @@
+diff --git a/techpack/audio/4.0/asoc/Kbuild b/techpack/audio/4.0/asoc/Kbuild
+index e3c8f487c..5a97c5cb4 100644
+--- a/techpack/audio/4.0/asoc/Kbuild
++++ b/techpack/audio/4.0/asoc/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/4.0/asoc/codecs/Kbuild b/techpack/audio/4.0/asoc/codecs/Kbuild
+index e138c9129..c128503be 100644
+--- a/techpack/audio/4.0/asoc/codecs/Kbuild
++++ b/techpack/audio/4.0/asoc/codecs/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.19
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/4.0/asoc/codecs/bolero/Kbuild b/techpack/audio/4.0/asoc/codecs/bolero/Kbuild
+index 74d46e5ce..4ab6230b0 100644
+--- a/techpack/audio/4.0/asoc/codecs/bolero/Kbuild
++++ b/techpack/audio/4.0/asoc/codecs/bolero/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.19
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/4.0/asoc/codecs/wcd937x/Kbuild b/techpack/audio/4.0/asoc/codecs/wcd937x/Kbuild
+index 1c36fbbc1..0cf4293c6 100644
+--- a/techpack/audio/4.0/asoc/codecs/wcd937x/Kbuild
++++ b/techpack/audio/4.0/asoc/codecs/wcd937x/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(ANDROID_BUILD_TOP)/kernel/msm-4.19
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/4.0/asoc/codecs/wcd938x/Kbuild b/techpack/audio/4.0/asoc/codecs/wcd938x/Kbuild
+index 2c915a6c8..5129d898f 100644
+--- a/techpack/audio/4.0/asoc/codecs/wcd938x/Kbuild
++++ b/techpack/audio/4.0/asoc/codecs/wcd938x/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.19
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/4.0/dsp/Kbuild b/techpack/audio/4.0/dsp/Kbuild
+index 62dd6c7e1..25c2f12fa 100644
+--- a/techpack/audio/4.0/dsp/Kbuild
++++ b/techpack/audio/4.0/dsp/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.19
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/4.0/dsp/codecs/Kbuild b/techpack/audio/4.0/dsp/codecs/Kbuild
+index d2fd0d494..f1a3c8ea5 100644
+--- a/techpack/audio/4.0/dsp/codecs/Kbuild
++++ b/techpack/audio/4.0/dsp/codecs/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.19
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/4.0/soc/Kbuild b/techpack/audio/4.0/soc/Kbuild
+index 5165d0bfd..0313d306d 100644
+--- a/techpack/audio/4.0/soc/Kbuild
++++ b/techpack/audio/4.0/soc/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.19
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/Kbuild b/techpack/audio/asoc/Kbuild
+index ab2921670..9a23228a9 100644
+--- a/techpack/audio/asoc/Kbuild
++++ b/techpack/audio/asoc/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/Kbuild b/techpack/audio/asoc/codecs/Kbuild
+index adcbfd684..ad0e30fdb 100644
+--- a/techpack/audio/asoc/codecs/Kbuild
++++ b/techpack/audio/asoc/codecs/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/aqt1000/Kbuild b/techpack/audio/asoc/codecs/aqt1000/Kbuild
+index 5b05798b2..a39ca7e5f 100644
+--- a/techpack/audio/asoc/codecs/aqt1000/Kbuild
++++ b/techpack/audio/asoc/codecs/aqt1000/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/bolero/Kbuild b/techpack/audio/asoc/codecs/bolero/Kbuild
+index 167664162..371e0a3e0 100644
+--- a/techpack/audio/asoc/codecs/bolero/Kbuild
++++ b/techpack/audio/asoc/codecs/bolero/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/csra66x0/Kbuild b/techpack/audio/asoc/codecs/csra66x0/Kbuild
+index 4b1a3ba1a..496dba9ca 100644
+--- a/techpack/audio/asoc/codecs/csra66x0/Kbuild
++++ b/techpack/audio/asoc/codecs/csra66x0/Kbuild
+@@ -10,7 +10,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/ep92/Kbuild b/techpack/audio/asoc/codecs/ep92/Kbuild
+index af1fd0836..8555e5033 100644
+--- a/techpack/audio/asoc/codecs/ep92/Kbuild
++++ b/techpack/audio/asoc/codecs/ep92/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(ANDROID_BUILD_TOP)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/max98937/Kbuild b/techpack/audio/asoc/codecs/max98937/Kbuild
+index 7c6a5142f..dc8427145 100644
+--- a/techpack/audio/asoc/codecs/max98937/Kbuild
++++ b/techpack/audio/asoc/codecs/max98937/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(ANDROID_BUILD_TOP)/kernel/msm-4.9
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/msm_sdw/Kbuild b/techpack/audio/asoc/codecs/msm_sdw/Kbuild
+index dd95afdec..5ab6b1508 100644
+--- a/techpack/audio/asoc/codecs/msm_sdw/Kbuild
++++ b/techpack/audio/asoc/codecs/msm_sdw/Kbuild
+@@ -10,7 +10,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.9
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/sdm660_cdc/Kbuild b/techpack/audio/asoc/codecs/sdm660_cdc/Kbuild
+index 6d929205f..8abe1aa6c 100644
+--- a/techpack/audio/asoc/codecs/sdm660_cdc/Kbuild
++++ b/techpack/audio/asoc/codecs/sdm660_cdc/Kbuild
+@@ -10,7 +10,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.9
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/tas2562/Kbuild b/techpack/audio/asoc/codecs/tas2562/Kbuild
+index 4fb27891d..73ac8269a 100644
+--- a/techpack/audio/asoc/codecs/tas2562/Kbuild
++++ b/techpack/audio/asoc/codecs/tas2562/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(ANDROID_BUILD_TOP)/kernel/msm-4.9
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/wcd934x/Kbuild b/techpack/audio/asoc/codecs/wcd934x/Kbuild
+index bc872eef9..5b768fac4 100644
+--- a/techpack/audio/asoc/codecs/wcd934x/Kbuild
++++ b/techpack/audio/asoc/codecs/wcd934x/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.9
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/wcd9360/Kbuild b/techpack/audio/asoc/codecs/wcd9360/Kbuild
+index 8753c005b..713a86e43 100644
+--- a/techpack/audio/asoc/codecs/wcd9360/Kbuild
++++ b/techpack/audio/asoc/codecs/wcd9360/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/asoc/codecs/wcd937x/Kbuild b/techpack/audio/asoc/codecs/wcd937x/Kbuild
+index bfc6f4fd5..403b30230 100644
+--- a/techpack/audio/asoc/codecs/wcd937x/Kbuild
++++ b/techpack/audio/asoc/codecs/wcd937x/Kbuild
+@@ -11,7 +11,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(ANDROID_BUILD_TOP)/kernel/msm-4.9
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/dsp/Kbuild b/techpack/audio/dsp/Kbuild
+index 6335d26d2..1f5351410 100644
+--- a/techpack/audio/dsp/Kbuild
++++ b/techpack/audio/dsp/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/dsp/codecs/Kbuild b/techpack/audio/dsp/codecs/Kbuild
+index 6139e52c5..291498ccd 100644
+--- a/techpack/audio/dsp/codecs/Kbuild
++++ b/techpack/audio/dsp/codecs/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 
+diff --git a/techpack/audio/soc/Kbuild b/techpack/audio/soc/Kbuild
+index 157b81d6e..6f4c4733b 100644
+--- a/techpack/audio/soc/Kbuild
++++ b/techpack/audio/soc/Kbuild
+@@ -9,7 +9,7 @@ endif
+ ifeq ($(KERNEL_BUILD), 1)
+ 	# These are configurable via Kconfig for kernel-based builds
+ 	# Need to explicitly configure for Android-based builds
+-	AUDIO_BLD_DIR := $(shell pwd)/kernel/msm-4.14
++	AUDIO_BLD_DIR := $(srctree)
+ 	AUDIO_ROOT := $(AUDIO_BLD_DIR)/techpack/audio
+ endif
+ 

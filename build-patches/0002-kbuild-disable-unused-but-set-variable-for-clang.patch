@@ -1,0 +1,17 @@
+diff --git a/Makefile b/Makefile
+index 6b929aef1..280a70fa1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -776,6 +776,12 @@ KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
+ # See modpost pattern 2
+ KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
+ KBUILD_CFLAGS += $(call cc-option, -fcatch-undefined-behavior)
++# These warnings generated too much noise in a regular build.
++# Use make W=1 to enable them (see scripts/Makefile.extrawarn)
++# The flag belongs to both toolchains. It was only applied on the GCC branch,
++# but the vendor code in techpack/audio and drivers/staging/qcacld-3.0 has 229
++# hits and is compiled with -Werror, so a clang build fails without it.
++KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
+ else
+ 
+ KBUILD_CFLAGS += $(call cc-option,-fno-delete-null-pointer-checks,)
