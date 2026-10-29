@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 # Wait for the property system to be up.
 while [ ! -e /dev/socket/property_service ]; do sleep 0.1; done
 # Init wlan interface on boot
@@ -25,6 +24,8 @@ elif [ -e /sys/fs/cgroup/user.slice/schedtune.boost ]; then
     echo 1 > /sys/fs/cgroup/user.slice/schedtune.prefer_idle
 fi
 
+setprop ctl.stop time_daemon
+
 # Stop an endless cycle of restarting and failing 'vendor.camera-provider-2-4',
 # as Waydroid connects to the one on the host-side binder interface
 if [ ! -f /var/lib/waydroid/overlay/vendor/etc/init/camera-provider-hack.rc ]; then
@@ -32,7 +33,7 @@ if [ ! -f /var/lib/waydroid/overlay/vendor/etc/init/camera-provider-hack.rc ]; t
     echo "on property:sys.boot_completed=1" > /var/lib/waydroid/overlay/vendor/etc/init/camera-provider-hack.rc
     echo "  stop vendor.camera-provider-2-4" >> /var/lib/waydroid/overlay/vendor/etc/init/camera-provider-hack.rc
 fi
-setprop ctl.stop time_daemon
+
 # Set a wake lock while running Waydroid
 # Opportunistic autosuspend blocks Waydroid and waydroid-sensors
 # from processing events, leading to lockups and unrecoverable restarts

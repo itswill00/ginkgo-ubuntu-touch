@@ -1,0 +1,12 @@
+# Build products
+/out/
+/dist/
+/build-workspace/
+*.img
+*.zip
+*.tar.xz
+*.tar.build
+
+# Editor and OS noise
+*~
+.DS_Store

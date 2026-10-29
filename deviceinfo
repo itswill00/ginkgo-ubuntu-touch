@@ -34,7 +34,10 @@ deviceinfo_bootimg_qcdt="false"
 deviceinfo_bootimg_header_version="2"
 deviceinfo_bootimg_os_version="10"
 deviceinfo_bootimg_os_patch_level="2021-01"
-deviceinfo_bootimg_prebuilt_dtb="workdir/downloads/KERNEL_OBJ/arch/arm64/boot/dts/xiaomi/qcom-base/trinket.dtb"
+# Relative to this file's directory, because make-bootimage.sh resolves it as
+# $HERE/$deviceinfo_bootimg_prebuilt_dtb. build-images.sh symlinks this path into
+# the tools work directory.
+deviceinfo_bootimg_prebuilt_dtb="KERNEL_OBJ/arch/arm64/boot/dts/xiaomi/qcom-base/trinket.dtb"
 deviceinfo_bootimg_partition_size="0x04000000"
 deviceinfo_dtbo="xiaomi/ginkgo-trinket-overlay.dtbo"
 deviceinfo_recovery_partition_size="0x04000000"
