@@ -1,0 +1,18 @@
+[Unit]
+Description=monitor and control system power state
+Wants=lxc-android-config.service dbus.socket socketfwd.service
+After=lxc-android-config.service dbus.socket
+
+[Service]
+Type=dbus
+BusName=com.lomiri.Repowerd
+# repowerd talks to the Android side over the binder interface, which is not
+# available until lxc-android-config has finished starting the container. Without
+# the delay repowerd races it and exits, and systemd restarts it in a loop.
+ExecStartPre=/bin/sleep 5
+ExecStart=/usr/sbin/repowerd
+EnvironmentFile=-/etc/default/repowerd
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

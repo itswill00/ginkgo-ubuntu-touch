@@ -1,0 +1,51 @@
+deviceinfo_name="Redmi Note 8"
+deviceinfo_manufacturer="Xiaomi"
+deviceinfo_codename="ginkgo"
+deviceinfo_arch="aarch64"
+
+# Kernel: Qualcomm CAF NICOBAR baseline, 4.14.190, maintained for Halium by
+# areyoudeveloper. Xiaomi publishes ginkgo-q-oss upstream, but that tree is the
+# MIUI baseline and lacks the Halium-side patches (AppArmor, binder device list,
+# cgroup config) that this tree already carries.
+deviceinfo_kernel_source="https://gitlab.com/areyoudeveloper/ut_kernel_xiaomi_sm6125"
+deviceinfo_kernel_source_branch="clo-LA.UM.9.11.c25-02800-NICOBAR.QSSI12c25.0"
+deviceinfo_kernel_defconfig="vendor/ginkgo-perf_defconfig"
+deviceinfo_kernel_clang_compile="true"
+deviceinfo_kernel_image_name="Image.gz-dtb"
+
+# console=tty0 is required: without it the framebuffer console is not attached to
+# the VT layer and lxc-android-config cannot surface early boot output, which
+# makes a failed boot indistinguishable from a dead panel.
+# systemd.unified_cgroup_hierarchy=0 keeps cgroup v1, which the 20.04 rootfs and
+# the schedtune boost in device-hacks expect.
+deviceinfo_kernel_cmdline="console=ttyMSM0,115200n8 androidboot.console=ttyMSM0 earlycon=msm_serial_dm,0x4a90000 androidboot.hardware=qcom msm_rtb.filter=0x237 lpm_levels.sleep_disabled=1 service_locator.enable=1 swiotlb=1 androidboot.configfs=true androidboot.usbcontroller=4e00000.dwc3 loop.max_part=7 systempart=/dev/disk/by-partlabel/system console=tty0 systemd.unified_cgroup_hierarchy=0"
+
+# Boot image layout. ginkgo is A-only with a real (non-super) system partition,
+# so there are no _a/_b suffixes and no dynamic partition resize anywhere in the
+# build or the installer.
+deviceinfo_flash_pagesize="4096"
+deviceinfo_flash_offset_base="0x00000000"
+deviceinfo_flash_offset_kernel="0x00008000"
+deviceinfo_flash_offset_ramdisk="0x01000000"
+deviceinfo_flash_offset_second="0x00f00000"
+deviceinfo_flash_offset_tags="0x00000100"
+deviceinfo_flash_offset_dtb="0x01f00000"
+deviceinfo_bootimg_qcdt="false"
+deviceinfo_bootimg_header_version="2"
+deviceinfo_bootimg_os_version="10"
+deviceinfo_bootimg_os_patch_level="2021-01"
+deviceinfo_bootimg_prebuilt_dtb="workdir/downloads/KERNEL_OBJ/arch/arm64/boot/dts/xiaomi/qcom-base/trinket.dtb"
+deviceinfo_bootimg_partition_size="0x04000000"
+deviceinfo_dtbo="xiaomi/ginkgo-trinket-overlay.dtbo"
+deviceinfo_recovery_partition_size="0x04000000"
+deviceinfo_system_partition_size="4450M"
+
+deviceinfo_rootfs_image_sector_size="4096"
+deviceinfo_halium_version="10"
+
+# Target release. ginkgo is not present in the 20.04 android9plus channel (UBports
+# only ever published it under 16.04/arm64/android9), so the rootfs is taken from
+# the focal android9plus build artifact rather than from system-image. The
+# resulting system image is self-contained; it does not depend on ginkgo existing
+# in any channel.
+deviceinfo_ubuntu_touch_release="focal"

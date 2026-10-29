@@ -1,0 +1,22 @@
+service time_daemon vendor.time_daemon_HYBRIS_DISABLED
+    disabled
+    oneshot
+    override
+
+on property:init.svc.qcom-post-boot=stopped
+    write /proc/sys/kernel/sched_boost 1
+
+service qfp-daemon qfp-daemon_HALIUM_DISABLED
+    disabled
+    oneshot
+    override
+
+# Disable console as it conflicts with the rootfs console
+service console /system/bin/sh_HYBRIS_DISABLED
+    disabled
+    override
+
+service lmkd lmkd_HYBRIS_DISABLED
+    disabled
+    oneshot
+    override

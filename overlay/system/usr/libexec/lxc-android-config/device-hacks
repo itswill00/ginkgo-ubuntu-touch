@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# Wait for the property system to be up.
+while [ ! -e /dev/socket/property_service ]; do sleep 0.1; done
+# Init wlan interface on boot
+while [ ! -e /dev/wlan ]; do sleep 0.2; done
+echo 1 > /dev/ipa && echo ON > /dev/wlan
+
+# restart hfd service to enable vibrations
+systemctl restart hfd-service.service
+# Mount filesystem to register interpreters against the native file format handler
+mount -t binfmt_misc binfmt_misc /proc/sys/fs/binfmt_misc
+systemctl restart systemd-binfmt.service
+chown system:android_input /sys/class/leds/led:torch_0/brightness
+chown system:android_input /sys/class/leds/led:switch_0/brightness
+iw phy0 wowlan enable magic-packet disconnect
+# cgroup v1 (20.04)
+if [ -e /sys/fs/cgroup/schedtune/schedtune.boost ]; then
+    echo 20 > /sys/fs/cgroup/schedtune/schedtune.boost
+    echo 1 > /sys/fs/cgroup/schedtune/schedtune.prefer_idle
+# cgroup v2 (24.04)
+elif [ -e /sys/fs/cgroup/user.slice/schedtune.boost ]; then
+    echo 20 > /sys/fs/cgroup/user.slice/schedtune.boost
+    echo 1 > /sys/fs/cgroup/user.slice/schedtune.prefer_idle
+fi
+
+setprop ctl.stop time_daemon
+
+# Stop an endless cycle of restarting and failing 'vendor.camera-provider-2-4',
+# as Waydroid connects to the one on the host-side binder interface
+if [ ! -f /var/lib/waydroid/overlay/vendor/etc/init/camera-provider-hack.rc ]; then
+    mkdir -p /var/lib/waydroid/overlay/vendor/etc/init
+    echo "on property:sys.boot_completed=1" > /var/lib/waydroid/overlay/vendor/etc/init/camera-provider-hack.rc
+    echo "  stop vendor.camera-provider-2-4" >> /var/lib/waydroid/overlay/vendor/etc/init/camera-provider-hack.rc
+fi
+
+# Set a wake lock while running Waydroid
+# Opportunistic autosuspend blocks Waydroid and waydroid-sensors
+# from processing events, leading to lockups and unrecoverable restarts
+echo -e '#!/bin/sh\necho waydroid > /sys/power/wake_lock' > /tmp/waydroid-start-hook
+echo -e '#!/bin/sh\necho waydroid > /sys/power/wake_unlock' > /tmp/waydroid-stop-hook
+chmod 755 /tmp/waydroid-start-hook
+chmod 755 /tmp/waydroid-stop-hook
+cat /usr/lib/waydroid/data/configs/config_base > /tmp/waydroid_config_base
+echo "lxc.hook.start-host = /tmp/waydroid-start-hook" >> /tmp/waydroid_config_base
+echo "lxc.hook.stop = /tmp/waydroid-stop-hook" >> /tmp/waydroid_config_base
+mount -o bind /tmp/waydroid_config_base /usr/lib/waydroid/data/configs/config_base
+swapoff /dev/zram0
+zramctl -s 3000M /dev/zram0
+mkswap /dev/zram0
+swapon /dev/zram0
+
+exit 0
