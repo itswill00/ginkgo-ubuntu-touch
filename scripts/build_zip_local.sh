@@ -44,7 +44,6 @@ else
     DIRTY=""
 fi
 DATE="$(date -u +%Y%m%d)"
-NAME="tanzanite-ut20.04-halium${HALIUM}-v${VERSION}-${DATE}-${COMMIT}${DIRTY}.zip"
 NAME="ginkgo-ut20.04-halium${HALIUM}-v${VERSION}-${DATE}-${COMMIT}${DIRTY}.zip"
 
 step "Staging"
